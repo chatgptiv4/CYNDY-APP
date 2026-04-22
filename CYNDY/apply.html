@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Application — Cyndy Educational Pathways</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+  <!-- Dropzone for file uploads -->
+  <link rel="stylesheet" href="https://unpkg.com/dropzone@6/dist/dropzone.css"/>
+  <script src="https://unpkg.com/dropzone@6/dist/dropzone-min.js" defer></script>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <link rel="stylesheet" href="/css/portal.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PORTAL TOPBAR
+═══════════════════════════════════════════════════════════════ -->
+<div class="portal-page">
+<header class="portal-topbar" id="portalTopbar">
+  <div class="portal-topbar-left">
+    <a href="/" class="nav-logo" aria-label="Home">
+      <img src="/assets/logo.svg" alt="Cyndy" width="32" height="32"/>
+      <div>
+        <span class="nav-logo-text">Cyndy</span>
+        <span class="nav-logo-sub">Educational Pathways</span>
+      </div>
+    </a>
+    <span style="color:var(--border);font-size:1.2rem" aria-hidden="true">|</span>
+    <span style="font-size:0.9rem;color:var(--text-secondary)">Application Wizard</span>
+  </div>
+  <div class="portal-topbar-right">
+    <a href="/status.html" class="btn btn-ghost btn-sm" id="topbarStatusBtn">
+      <i class="fa-solid fa-chart-line"></i> My Status
+    </a>
+    <div class="portal-user-chip" id="userChip" tabindex="0" role="button" aria-label="User menu">
+      <div class="portal-avatar" id="userAvatar" aria-hidden="true">?</div>
+      <span class="portal-user-name" id="userName">Loading…</span>
+      <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;color:var(--muted)" aria-hidden="true"></i>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="signOutBtn" aria-label="Sign out">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════════════════════ -->
+<main class="portal-content" id="portalMain">
+
+  <!-- Application selector (if multiple apps) -->
+  <div id="appSelector" class="hidden">
+    <div class="wizard-title-row">
+      <h1 class="wizard-page-title">My Applications</h1>
+      <button class="btn btn-gold btn-sm" id="newAppBtn">
+        <i class="fa-solid fa-plus"></i> New Application
+      </button>
+    </div>
+    <div class="app-selector" id="appSelectorGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Wizard header -->
+  <div class="wizard-header" id="wizardHeader">
+    <div class="wizard-title-row">
+      <h1 class="wizard-page-title" id="wizardTitle">Application Wizard</h1>
+      <div class="wizard-autosave" id="autosaveIndicator" aria-live="polite">
+        <i class="fa-solid fa-cloud" aria-hidden="true"></i>
+        <span id="autosaveText">All changes saved</span>
+      </div>
+    </div>
+
+    <!-- Progress stepper -->
+    <div class="wizard-stepper-wrap">
+      <div class="wizard-progress-text">
+        <span class="wizard-progress-label">
+          Section <span id="currentSectionNum">1</span> of 16 —
+          <strong id="currentSectionName">Personal Details</strong>
+        </span>
+        <span class="wizard-progress-value" id="progressPct">0% complete</span>
+      </div>
+      <div class="progress-bar-track" style="margin-bottom:var(--space-4)">
+        <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+      </div>
+      <div class="sections-dots" id="sectionsDots" role="tablist" aria-label="Application sections">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Section panels (shown one at a time) -->
+  <div id="wizardPanels">
+
+    <!-- ── SECTION 1: PERSONAL DETAILS ── -->
+    <section class="wizard-panel animate-slideUp" id="panel-1" aria-labelledby="sec1-title">
+      <div class="wizard-panel-header">
+        <div class="section-header" style="margin-bottom:0; border-bottom:none; padding-bottom:0">
+          <div class="section-num" aria-hidden="true">1</div>
+          <h2 class="section-title" id="sec1-title">Personal Details</h2>
+          <p class="section-subtitle">Your basic personal information as it appears on your passport.</p>
+        </div>
+      </div>
+      <div class="wizard-panel-body">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="s1_firstName">First Name <span class="required">*</span></label>
+            <input type="text" id="s1_firstName" class="form-control" placeholder="Jane" required autocomplete="given-name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_lastName">Last Name <span class="required">*</span></label>
+            <input type="text" id="s1_lastName" class="form-control" placeholder="Doe" required autocomplete="family-name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_otherNames">Other Names</label>
+            <input type="text" id="s1_otherNames" class="form-control" placeholder="Middle name(s)"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_dob">Date of Birth <span class="required">*</span></label>
+            <input type="date" id="s1_dob" class="form-control" required autocomplete="bday"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_gender">Gender <span class="required">*</span></label>
+            <select id="s1_gender" class="form-control" required>
+              <option value="">Select…</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non_binary">Non-binary</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_marital">Marital Status <span class="required">*</span></label>
+            <select id="s1_marital" class="form-control" required>
+              <option value="">Select…</option>
+              <option value="single">Single</option>
+              <option value="married">Married</option>
+              <option value="divorced">Divorced</option>
+              <option value="widowed">Widowed</option>
+              <option value="civil_partnership">Civil Partnership</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_nationality">Nationality <span class="required">*</span></label>
+            <select id="s1_nationality" class="form-control" required>
+              <option value="">Select…</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_birthCountry">Country of Birth <span class="required">*</span></label>
+            <select id="s1_birthCountry" class="form-control" required>
+              <option value="">Select…</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 class="subsection-title"><i class="fa-solid fa-passport" aria-hidden="true"></i> Passport Information</h3>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="s1_passportNum">Passport Number <span class="required">*</span></label>
+            <input type="text" id="s1_passportNum" class="form-control" placeholder="A12345678"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_passportIssued">Issue Date <span class="required">*</span></label>
+            <input type="date" id="s1_passportIssued" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_passportExpiry">Expiry Date <span class="required">*</span></label>
+            <input type="date" id="s1_passportExpiry" class="form-control"/>
+            <p class="form-hint">Must be valid for at least 6 months after your intended travel date.</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s1_passportCountry">Issuing Country <span class="required">*</span></label>
+            <select id="s1_passportCountry" class="form-control">
+              <option value="">Select…</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-panel-footer">
+        <button class="wizard-nav-prev" disabled id="s1_prev" aria-label="Previous section">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Previous
+        </button>
+        <button class="btn btn-gold" id="s1_next" aria-label="Save and continue">
+          Save &amp; Continue <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── SECTION 2: CONTACT DETAILS ── -->
+    <section class="wizard-panel hidden animate-slideUp" id="panel-2" aria-labelledby="sec2-title">
+      <div class="wizard-panel-header">
+        <div class="section-header" style="margin-bottom:0;border-bottom:none;padding-bottom:0">
+          <div class="section-num">2</div>
+          <h2 class="section-title" id="sec2-title">Contact Details</h2>
+          <p class="section-subtitle">How we and the university can reach you.</p>
+        </div>
+      </div>
+      <div class="wizard-panel-body">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="s2_email">Email Address <span class="required">*</span></label>
+            <div class="input-group">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input type="email" id="s2_email" class="form-control" required autocomplete="email"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_altEmail">Alternative Email</label>
+            <div class="input-group">
+              <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+              <input type="email" id="s2_altEmail" class="form-control"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_phone">Phone (Primary) <span class="required">*</span></label>
+            <input type="tel" id="s2_phone" class="form-control" placeholder="+234 800 0000000" required autocomplete="tel"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_phone2">Phone (WhatsApp)</label>
+            <input type="tel" id="s2_phone2" class="form-control" placeholder="+234 800 0000000"/>
+          </div>
+        </div>
+
+        <h3 class="subsection-title"><i class="fa-solid fa-house" aria-hidden="true"></i> Home Address</h3>
+        <div class="form-grid-2">
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label" for="s2_addr1">Address Line 1 <span class="required">*</span></label>
+            <input type="text" id="s2_addr1" class="form-control" placeholder="123 Example Street" required autocomplete="address-line1"/>
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label" for="s2_addr2">Address Line 2</label>
+            <input type="text" id="s2_addr2" class="form-control" placeholder="Apartment, suite, etc." autocomplete="address-line2"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_city">City <span class="required">*</span></label>
+            <input type="text" id="s2_city" class="form-control" required autocomplete="address-level2"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_state">State / Region <span class="required">*</span></label>
+            <input type="text" id="s2_state" class="form-control" required autocomplete="address-level1"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_postcode">Postcode / ZIP</label>
+            <input type="text" id="s2_postcode" class="form-control" autocomplete="postal-code"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_country">Country <span class="required">*</span></label>
+            <select id="s2_country" class="form-control" required autocomplete="country-name">
+              <option value="">Select…</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 class="subsection-title"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Emergency Contact</h3>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="s2_emergName">Full Name <span class="required">*</span></label>
+            <input type="text" id="s2_emergName" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_emergRel">Relationship <span class="required">*</span></label>
+            <select id="s2_emergRel" class="form-control" required>
+              <option value="">Select…</option>
+              <option>Parent</option><option>Sibling</option>
+              <option>Spouse</option><option>Friend</option>
+              <option>Guardian</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_emergPhone">Phone <span class="required">*</span></label>
+            <input type="tel" id="s2_emergPhone" class="form-control" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="s2_emergEmail">Email</label>
+            <input type="email" id="s2_emergEmail" class="form-control"/>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-panel-footer">
+        <button class="wizard-nav-prev" id="s2_prev" aria-label="Previous section">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Previous
+        </button>
+        <button class="btn btn-gold" id="s2_next">
+          Save &amp; Continue <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── SECTIONS 3–16 PLACEHOLDERS (populated by JS renderSection) ── -->
+    <!-- Sections 3-16 are rendered dynamically by apply.js -->
+    <div id="dynamicPanels"></div>
+
+  </div><!-- /wizardPanels -->
+
+  <!-- Submit success screen -->
+  <div class="submit-success hidden" id="submitSuccess">
+    <div class="submit-success-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></div>
+    <h2 class="submit-success-title">Application Submitted!</h2>
+    <p class="submit-success-desc">
+      Your application has been received and is now under review.
+      You will receive an email confirmation shortly.
+    </p>
+    <div class="submit-ref" id="submitRef" aria-label="Application reference">
+      <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
+      <span id="submitRefCode">CEP-2026-XXXX</span>
+      <button class="copy-btn" id="copyRefBtn" aria-label="Copy reference code" onclick="copyRef()">
+        <i class="fa-solid fa-copy" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap">
+      <a href="/status.html" class="btn btn-gold btn-lg" id="goToStatusBtn">
+        <i class="fa-solid fa-chart-line"></i> Track My Application
+      </a>
+      <button class="btn btn-ghost btn-lg" id="newApplicationBtn">
+        <i class="fa-solid fa-plus"></i> Start Another
+      </button>
+    </div>
+  </div>
+
+</main>
+</div><!-- /portal-page -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import { requireAuth, signOut } from '/js/auth.js';
+  import { initApplyWizard } from '/js/apply.js';
+
+  (async () => {
+    const ctx = await requireAuth(['client']);
+    if (!ctx) return;
+
+    // Populate topbar
+    const { profile } = ctx;
+    document.getElementById('userName').textContent = profile.full_name || profile.email;
+    const av = document.getElementById('userAvatar');
+    if (av) {
+      const initials = profile.full_name
+        ? profile.full_name.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)
+        : '?';
+      av.textContent = initials;
+    }
+
+    // Sign out
+    document.getElementById('signOutBtn')?.addEventListener('click', signOut);
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    }
+
+    // Init wizard
+    await initApplyWizard(ctx);
+  })();
+</script>
+
+</body>
+</html>

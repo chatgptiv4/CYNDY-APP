@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>You're Offline — Cyndy Educational Pathways</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <style>
+    body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+    .offline-wrap {
+      text-align:center;
+      max-width:460px;
+      padding:var(--space-8);
+      animation:slideUp 0.5s ease both;
+    }
+    .offline-icon {
+      width:88px;height:88px;
+      border-radius:50%;
+      background:var(--navy-2);
+      border:2px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-size:2.25rem;color:var(--muted);
+      margin:0 auto var(--space-6);
+      position:relative;
+    }
+    .offline-icon::after {
+      content:'';
+      position:absolute;
+      width:12px;height:12px;
+      background:var(--danger);
+      border-radius:50%;
+      border:3px solid var(--navy);
+      bottom:4px;right:4px;
+    }
+    .offline-title { font-family:var(--font-display); font-size:2.25rem; font-weight:700; margin-bottom:var(--space-3); }
+    .offline-desc  { color:var(--text-secondary); line-height:1.7; margin-bottom:var(--space-8); }
+    .pulse-ring {
+      position:absolute;
+      inset:-12px;
+      border-radius:50%;
+      border:2px solid var(--warning);
+      opacity:0.4;
+      animation:pulse-ring 2s ease infinite;
+    }
+    @keyframes pulse-ring {
+      0%  { transform:scale(1); opacity:0.4; }
+      50% { transform:scale(1.05); opacity:0.15; }
+      100%{ transform:scale(1); opacity:0.4; }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-wrap">
+    <div class="offline-icon" aria-hidden="true">
+      <div class="pulse-ring"></div>
+      <i class="fa-solid fa-wifi"></i>
+    </div>
+    <h1 class="offline-title">You're Offline</h1>
+    <p class="offline-desc">
+      It looks like your internet connection has dropped.
+      Don't worry — any changes you were making have been saved locally and will sync when you're back online.
+    </p>
+    <button class="btn btn-gold btn-lg" id="retryBtn" onclick="window.location.reload()">
+      <i class="fa-solid fa-rotate-right"></i> Try Again
+    </button>
+    <p style="margin-top:var(--space-5);font-size:0.875rem;color:var(--muted)" id="offlineStatus">
+      Checking connectivity…
+    </p>
+  </div>
+  <script>
+    // Auto-retry every 5s
+    const status = document.getElementById('offlineStatus');
+    let attempts = 0;
+    const check = setInterval(() => {
+      attempts++;
+      if (navigator.onLine) {
+        clearInterval(check);
+        status.textContent = 'Connection restored! Redirecting…';
+        status.style.color = 'var(--success)';
+        setTimeout(() => history.back(), 1000);
+      } else {
+        status.textContent = `Still offline… (attempt ${attempts})`;
+      }
+    }, 5000);
+    window.addEventListener('online', () => {
+      clearInterval(check);
+      status.textContent = 'Connection restored! Redirecting…';
+      status.style.color = 'var(--success)';
+      setTimeout(() => history.back(), 800);
+    });
+  </script>
+</body>
+</html>

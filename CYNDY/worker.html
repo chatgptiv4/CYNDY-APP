@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Worker Dashboard — Cyndy Educational Pathways</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <link rel="stylesheet" href="/css/dashboard.css"/>
+</head>
+<body>
+<div class="dash-shell">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════════════════════════ -->
+<aside class="dash-sidebar" id="dashSidebar" aria-label="Worker navigation">
+  <div class="sidebar-logo">
+    <img src="/assets/logo.svg" alt="Cyndy" class="sidebar-logo-img" width="32" height="32"/>
+    <div>
+      <div class="sidebar-logo-text">Cyndy</div>
+      <div class="sidebar-logo-sub">Worker Portal</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav" aria-label="Navigation">
+    <div class="sidebar-section-label">Main</div>
+
+    <a href="#" class="nav-item active" data-page="applications" id="navApplications">
+      <span class="nav-item-icon"><i class="fa-solid fa-folder-open" aria-hidden="true"></i></span>
+      <span class="nav-item-label">Applications</span>
+      <span class="nav-badge" id="pendingCount">0</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="documents" id="navDocuments">
+      <span class="nav-item-icon"><i class="fa-solid fa-file-shield" aria-hidden="true"></i></span>
+      <span class="nav-item-label">Document Review</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="pipeline" id="navPipeline">
+      <span class="nav-item-icon"><i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i></span>
+      <span class="nav-item-label">Pipeline</span>
+    </a>
+
+    <div class="sidebar-section-label">Communication</div>
+
+    <a href="#" class="nav-item" data-page="messages" id="navMessages">
+      <span class="nav-item-icon"><i class="fa-solid fa-comments" aria-hidden="true"></i></span>
+      <span class="nav-item-label">Messages</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="notifications" id="navNotifications">
+      <span class="nav-item-icon"><i class="fa-solid fa-bell" aria-hidden="true"></i></span>
+      <span class="nav-item-label">Notifications</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user" id="sidebarUser" tabindex="0" role="button">
+      <div class="sidebar-user-avatar" id="sidebarAvatar" aria-hidden="true">?</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebarName">Loading…</div>
+        <div class="sidebar-user-role">Worker</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-sm w-full" id="signOutBtn" style="margin-top:var(--space-2)">
+      <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+      <span>Sign Out</span>
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN
+═══════════════════════════════════════════════════════════════ -->
+<div class="dash-main" id="dashMain">
+  <header class="dash-topbar" id="dashTopbar">
+    <div class="dash-topbar-left">
+      <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+      <h1 class="dash-page-title" id="dashPageTitle">Applications</h1>
+    </div>
+    <div class="dash-topbar-right">
+      <div class="search-bar" style="width:280px">
+        <i class="fa-solid fa-magnifying-glass fa" aria-hidden="true"></i>
+        <input type="text" id="globalSearch" placeholder="Search applications…" autocomplete="off" aria-label="Search applications"/>
+      </div>
+      <button class="notif-btn" id="notifBtn" aria-label="Notifications">
+        <i class="fa-solid fa-bell" aria-hidden="true"></i>
+        <span class="notif-dot hidden" id="notifDot" aria-hidden="true"></span>
+      </button>
+      <!-- Notifications dropdown -->
+      <div class="notif-dropdown" id="notifDropdown" role="dialog" aria-label="Notifications">
+        <div style="padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--border);font-weight:600">
+          Notifications
+        </div>
+        <div class="search-results" id="notifList">
+          <p style="padding:var(--space-5);color:var(--muted);font-size:0.875rem">No new notifications.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-content" id="dashContent">
+
+    <!-- ─── STATS ROW ─── -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-inbox" aria-hidden="true"></i></div>
+        <div>
+          <div class="stat-value" id="statAssigned">—</div>
+          <div class="stat-label">Assigned to Me</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--warning-dim);color:var(--warning)"><i class="fa-solid fa-clock" aria-hidden="true"></i></div>
+        <div>
+          <div class="stat-value" id="statPending">—</div>
+          <div class="stat-label">Pending Action</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--success-dim);color:var(--success)"><i class="fa-solid fa-check-double" aria-hidden="true"></i></div>
+        <div>
+          <div class="stat-value" id="statCompleted">—</div>
+          <div class="stat-label">Completed (30d)</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--info-dim);color:var(--info)"><i class="fa-solid fa-file-shield" aria-hidden="true"></i></div>
+        <div>
+          <div class="stat-value" id="statDocsReview">—</div>
+          <div class="stat-label">Docs for Review</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── FILTER BAR ─── -->
+    <div class="filter-bar" id="filterBar">
+      <div class="search-bar" style="flex:1;min-width:200px">
+        <i class="fa-solid fa-magnifying-glass fa" aria-hidden="true"></i>
+        <input type="text" id="tableSearch" placeholder="Search by name, ref, email…" aria-label="Filter applications"/>
+      </div>
+      <select class="form-control" id="filterStatus" style="width:auto" aria-label="Filter by status">
+        <option value="">All Statuses</option>
+        <option value="submitted">Submitted</option>
+        <option value="docs_pending">Docs Pending</option>
+        <option value="docs_complete">Docs Complete</option>
+        <option value="under_review">Under Review</option>
+        <option value="offer_received">Offer Received</option>
+        <option value="accepted">Accepted</option>
+        <option value="rejected">Rejected</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" id="clearFiltersBtn">
+        <i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i> Clear
+      </button>
+    </div>
+
+    <!-- ─── APPLICATIONS TABLE ─── -->
+    <div class="table-section" id="appsTable">
+      <div class="table-section-header">
+        <h2 class="table-section-title" id="tableTitle">My Applications</h2>
+        <div class="table-section-actions">
+          <span class="text-sm text-muted" id="tableCount">Loading…</span>
+          <button class="btn btn-ghost btn-sm" id="exportBtn" aria-label="Export to CSV">
+            <i class="fa-solid fa-file-export" aria-hidden="true"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <!-- Bulk bar (hidden until selection) -->
+      <div class="bulk-bar hidden" id="bulkBar">
+        <span class="bulk-bar-count" id="bulkCount">0 selected</span>
+        <button class="btn btn-ghost btn-sm" id="bulkMarkReview">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Mark Under Review
+        </button>
+        <button class="btn btn-ghost btn-sm" id="bulkDownloadZip">
+          <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> Download Docs (ZIP)
+        </button>
+        <button class="btn btn-danger btn-sm" id="bulkReject">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i> Reject Selected
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrap">
+        <table id="appsTableEl" aria-label="Applications table">
+          <thead>
+            <tr>
+              <th style="width:40px">
+                <input type="checkbox" class="row-checkbox" id="selectAll" aria-label="Select all"/>
+              </th>
+              <th>Reference</th>
+              <th>Applicant</th>
+              <th>Programme</th>
+              <th>Status</th>
+              <th>Documents</th>
+              <th>Payment</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appsTableBody">
+            <!-- Skeleton rows -->
+            <tr><td colspan="9">
+              <div style="padding:var(--space-4)">
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+              </div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-4) var(--space-5);border-top:1px solid var(--border);flex-wrap:wrap;gap:var(--space-3)">
+        <span class="text-sm text-muted" id="paginationInfo">—</span>
+        <div class="pagination" id="paginationControls" role="navigation" aria-label="Table pagination"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</div><!-- /dash-shell -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     APPLICATION DETAIL DRAWER
+═══════════════════════════════════════════════════════════════ -->
+<div class="drawer-overlay" id="appDrawerOverlay">
+  <div class="drawer drawer-lg" id="appDrawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer-header">
+      <div>
+        <p class="text-sm text-muted" id="drawerRefCode">REF: —</p>
+        <h2 id="drawerTitle" style="font-family:var(--font-display);font-size:1.25rem;font-weight:700">
+          Application Details
+        </h2>
+      </div>
+      <button class="modal-close" id="drawerClose" aria-label="Close drawer">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body" id="drawerBody">
+      <!-- ── Status changer ── -->
+      <div class="status-changer" id="drawerStatusChanger">
+        <p class="status-changer-label">Change Application Status</p>
+        <div class="status-option-grid" id="drawerStatusGrid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ── Tabs ── -->
+      <div class="tabs" id="drawerTabs" role="tablist">
+        <button class="tab-btn active" data-tab="details" role="tab" aria-selected="true">Details</button>
+        <button class="tab-btn" data-tab="documents" role="tab">Documents</button>
+        <button class="tab-btn" data-tab="notes" role="tab">Notes</button>
+        <button class="tab-btn" data-tab="timeline" role="tab">Timeline</button>
+      </div>
+
+      <!-- Details tab -->
+      <div class="admin-tab-content active" id="tab-details" role="tabpanel">
+        <div id="drawerDetails"></div>
+      </div>
+
+      <!-- Documents tab -->
+      <div class="admin-tab-content" id="tab-documents" role="tabpanel">
+        <div id="drawerDocs"></div>
+      </div>
+
+      <!-- Notes tab -->
+      <div class="admin-tab-content" id="tab-notes" role="tabpanel">
+        <div id="drawerNotes"></div>
+        <div style="margin-top:var(--space-5)">
+          <div class="form-group">
+            <label class="form-label" for="noteTextarea">Add Internal Note</label>
+            <textarea id="noteTextarea" class="form-control" rows="3" placeholder="Add a note visible only to workers and admins…"></textarea>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:var(--space-3);margin-top:var(--space-3)">
+            <button class="btn btn-outline btn-sm" id="addClientNoteBtn">Message Client</button>
+            <button class="btn btn-gold btn-sm" id="addNoteBtn">Save Note</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline tab -->
+      <div class="admin-tab-content" id="tab-timeline" role="tabpanel">
+        <div class="timeline" id="drawerTimeline"></div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <div style="display:flex;align-items:center;gap:var(--space-3)">
+        <button class="btn btn-success btn-sm" id="drawerAcceptBtn">
+          <i class="fa-solid fa-check-circle" aria-hidden="true"></i> Accept
+        </button>
+        <button class="btn btn-danger btn-sm" id="drawerRejectBtn">
+          <i class="fa-solid fa-xmark-circle" aria-hidden="true"></i> Reject
+        </button>
+        <button class="btn btn-ghost btn-sm" id="drawerDownloadZip">
+          <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> Download ZIP
+        </button>
+      </div>
+      <button class="btn btn-outline btn-sm" id="drawerDownloadPdf">
+        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> PDF Summary
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PIN MODAL (secondary auth for workers)
+═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="pinModal" role="dialog" aria-modal="true" aria-labelledby="pinModalTitle">
+  <div class="modal animate-scaleIn" style="max-width:380px;text-align:center">
+    <div style="margin-bottom:var(--space-6)">
+      <img src="/assets/logo.svg" alt="" width="48" height="48" style="margin:0 auto var(--space-4)"/>
+      <h2 id="pinModalTitle" style="font-family:var(--font-display);font-size:1.5rem;font-weight:700">Enter Your PIN</h2>
+      <p style="color:var(--muted);font-size:0.875rem;margin-top:4px">Enter your 4-digit security PIN to access the worker portal</p>
+    </div>
+    <form id="pinForm" novalidate>
+      <div class="pin-inputs" role="group" aria-label="PIN digits">
+        <input class="pin-input" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="PIN digit 1"/>
+        <input class="pin-input" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="PIN digit 2"/>
+        <input class="pin-input" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="PIN digit 3"/>
+        <input class="pin-input" type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" aria-label="PIN digit 4"/>
+      </div>
+      <button type="submit" class="btn btn-gold w-full btn-lg" style="margin-top:var(--space-6)" id="pinSubmitBtn">
+        <span class="spinner" style="display:none"></span>
+        <span class="btn-label">Unlock Portal</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, signOut, initPinModal } from '/js/auth.js';
+  import { initWorkerDashboard }               from '/js/worker.js';
+
+  (async () => {
+    const ctx = await requireAuth(['worker', 'admin']);
+    if (!ctx) return;
+
+    const { profile } = ctx;
+
+    // Topbar
+    document.getElementById('sidebarName').textContent   = profile.full_name || profile.email;
+    const av = document.getElementById('sidebarAvatar');
+    if (av) av.textContent = (profile.full_name || '?').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+
+    document.getElementById('signOutBtn')?.addEventListener('click', signOut);
+
+    // Mobile sidebar
+    const sidebar = document.getElementById('dashSidebar');
+    const toggle  = document.getElementById('sidebarToggle');
+    toggle?.addEventListener('click', () => sidebar?.classList.toggle('mobile-open'));
+
+    // PIN auth (required for workers)
+    if (profile.role === 'worker' && profile.pin_hash) {
+      initPinModal(ctx.user.id, () => initWorkerDashboard(ctx));
+    } else {
+      initWorkerDashboard(ctx);
+    }
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(console.error);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Cyndy Educational Pathways</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <link rel="stylesheet" href="/css/dashboard.css"/>
+</head>
+<body>
+<div class="dash-shell">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SIDEBAR
+═══════════════════════════════════════════════════════════════ -->
+<aside class="dash-sidebar" id="dashSidebar" aria-label="Admin navigation">
+  <div class="sidebar-logo">
+    <img src="/assets/logo.svg" alt="Cyndy" class="sidebar-logo-img" width="32" height="32"/>
+    <div>
+      <div class="sidebar-logo-text">Cyndy</div>
+      <div class="sidebar-logo-sub">Admin Panel</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Overview</div>
+    <a href="#" class="nav-item active" data-tab="overview"  id="navOverview">
+      <span class="nav-item-icon"><i class="fa-solid fa-gauge-high"></i></span>
+      <span class="nav-item-label">Dashboard</span>
+    </a>
+
+    <div class="sidebar-section-label">Applications</div>
+    <a href="#" class="nav-item" data-tab="applications" id="navApps">
+      <span class="nav-item-icon"><i class="fa-solid fa-folder-open"></i></span>
+      <span class="nav-item-label">All Applications</span>
+      <span class="nav-badge" id="totalAppsCount">0</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="payments" id="navPayments">
+      <span class="nav-item-icon"><i class="fa-solid fa-sterling-sign"></i></span>
+      <span class="nav-item-label">Payments</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="documents" id="navDocs">
+      <span class="nav-item-icon"><i class="fa-solid fa-file-shield"></i></span>
+      <span class="nav-item-label">Documents</span>
+    </a>
+
+    <div class="sidebar-section-label">People</div>
+    <a href="#" class="nav-item" data-tab="workers" id="navWorkers">
+      <span class="nav-item-icon"><i class="fa-solid fa-user-tie"></i></span>
+      <span class="nav-item-label">Workers</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="clients" id="navClients">
+      <span class="nav-item-icon"><i class="fa-solid fa-users"></i></span>
+      <span class="nav-item-label">Clients</span>
+    </a>
+
+    <div class="sidebar-section-label">Tools</div>
+    <a href="#" class="nav-item" data-tab="programs" id="navPrograms">
+      <span class="nav-item-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+      <span class="nav-item-label">Programs DB</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="scraper" id="navScraper">
+      <span class="nav-item-icon"><i class="fa-solid fa-spider"></i></span>
+      <span class="nav-item-label">Scraper Tool</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="audit" id="navAudit">
+      <span class="nav-item-icon"><i class="fa-solid fa-scroll"></i></span>
+      <span class="nav-item-label">Audit Log</span>
+    </a>
+    <a href="#" class="nav-item" data-tab="settings" id="navSettings">
+      <span class="nav-item-icon"><i class="fa-solid fa-gear"></i></span>
+      <span class="nav-item-label">Settings</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar" id="sidebarAvatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebarName">Admin</div>
+        <div class="sidebar-user-role">Administrator</div>
+      </div>
+    </div>
+    <button class="btn btn-ghost btn-sm w-full" id="signOutBtn" style="margin-top:var(--space-2)">
+      <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+    </button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN
+═══════════════════════════════════════════════════════════════ -->
+<div class="dash-main" id="dashMain">
+  <header class="dash-topbar">
+    <div class="dash-topbar-left">
+      <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <h1 class="dash-page-title" id="dashPageTitle">Dashboard Overview</h1>
+    </div>
+    <div class="dash-topbar-right">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <div class="search-bar" style="width:260px">
+        <i class="fa-solid fa-magnifying-glass fa"></i>
+        <input type="text" id="globalSearch" placeholder="Search everything…"/>
+      </div>
+      <button class="notif-btn" id="notifBtn" aria-label="Notifications">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notif-dot hidden" id="notifDot"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="dash-content">
+
+    <!-- ═══ OVERVIEW TAB ═══ -->
+    <div id="tab-overview" class="admin-tab-content active">
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-folder"></i></div>
+          <div><div class="stat-value" id="ovTotal">—</div><div class="stat-label">Total Applications</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--info-dim);color:var(--info)"><i class="fa-solid fa-paper-plane"></i></div>
+          <div><div class="stat-value" id="ovSubmitted">—</div><div class="stat-label">Submitted</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--gold-dim);color:var(--gold)"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div><div class="stat-value" id="ovReview">—</div><div class="stat-label">Under Review</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--success-dim);color:var(--success)"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div><div class="stat-value" id="ovAccepted">—</div><div class="stat-label">Accepted</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--danger-dim);color:var(--danger)"><i class="fa-solid fa-xmark"></i></div>
+          <div><div class="stat-value" id="ovRejected">—</div><div class="stat-label">Rejected</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--warning-dim);color:var(--warning)"><i class="fa-solid fa-sterling-sign"></i></div>
+          <div><div class="stat-value" id="ovRevenue">—</div><div class="stat-label">Revenue (Verified)</div></div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-container">
+          <h3 class="chart-title">Applications by Status</h3>
+          <canvas id="chartStatus" height="250"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3 class="chart-title">Applications Over Time</h3>
+          <canvas id="chartTimeline" height="250"></canvas>
+        </div>
+        <div class="chart-container span-2">
+          <h3 class="chart-title">Applications by Programme / University</h3>
+          <canvas id="chartPrograms" height="180"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="table-section">
+        <div class="table-section-header">
+          <h2 class="table-section-title">Recent Activity</h2>
+        </div>
+        <div style="padding:var(--space-5)" id="recentActivity">
+          <div class="skeleton skeleton-row"></div>
+          <div class="skeleton skeleton-row"></div>
+          <div class="skeleton skeleton-row"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ APPLICATIONS TAB ═══ -->
+    <div id="tab-applications" class="admin-tab-content">
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <div class="search-bar" style="flex:1;min-width:200px">
+          <i class="fa-solid fa-magnifying-glass fa"></i>
+          <input type="text" id="adminAppSearch" placeholder="Search by name, ref, email…"/>
+        </div>
+        <select class="form-control" id="adminStatusFilter" style="width:auto">
+          <option value="">All Statuses</option>
+          <option value="submitted">Submitted</option>
+          <option value="docs_pending">Docs Pending</option>
+          <option value="docs_complete">Docs Complete</option>
+          <option value="under_review">Under Review</option>
+          <option value="offer_received">Offer Received</option>
+          <option value="accepted">Accepted</option>
+          <option value="rejected">Rejected</option>
+          <option value="withdrawn">Withdrawn</option>
+        </select>
+        <select class="form-control" id="adminWorkerFilter" style="width:auto">
+          <option value="">All Workers</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" id="adminClearFilters">
+          <i class="fa-solid fa-filter-circle-xmark"></i> Clear
+        </button>
+        <button class="btn btn-gold btn-sm" id="adminExportBtn">
+          <i class="fa-solid fa-file-export"></i> Export CSV
+        </button>
+      </div>
+
+      <div class="table-section">
+        <div class="table-section-header">
+          <h2 class="table-section-title">All Applications</h2>
+          <span class="text-sm text-muted" id="adminAppCount">Loading…</span>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="All applications">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Applicant</th>
+                <th>Programme</th>
+                <th>Status</th>
+                <th>Assigned To</th>
+                <th>Payment</th>
+                <th>Submitted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminAppsBody">
+              <tr><td colspan="8"><div style="padding:var(--space-4)">
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+              </div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAYMENTS TAB ═══ -->
+    <div id="tab-payments" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Payment Management</h2>
+          <p class="page-header-subtitle">Verify payment receipts and track revenue.</p>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-section-header">
+          <h2 class="table-section-title">Payment Receipts</h2>
+          <div class="table-section-actions">
+            <span class="badge badge-success" id="verifiedRevenue">£0 verified</span>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table aria-label="Payment receipts">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Applicant</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Uploaded</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsBody">
+              <tr><td colspan="6"><div style="padding:var(--space-8);text-align:center;color:var(--muted)">
+                Loading payments…
+              </div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WORKERS TAB ═══ -->
+    <div id="tab-workers" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Worker Management</h2>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-gold" id="inviteWorkerBtn">
+            <i class="fa-solid fa-plus"></i> Invite Worker
+          </button>
+        </div>
+      </div>
+      <div id="workersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:var(--space-5)">
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+    </div>
+
+    <!-- ═══ CLIENTS TAB ═══ -->
+    <div id="tab-clients" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Client Management</h2>
+        </div>
+        <div class="page-header-actions">
+          <div class="search-bar" style="width:260px">
+            <i class="fa-solid fa-magnifying-glass fa"></i>
+            <input type="text" id="clientSearch" placeholder="Search clients…"/>
+          </div>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table aria-label="Clients">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Nationality</th>
+                <th>Applications</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="clientsBody">
+              <tr><td colspan="6"><div style="padding:var(--space-8);text-align:center;color:var(--muted)">Loading clients…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PROGRAMS DB TAB ═══ -->
+    <div id="tab-programs" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Programs Database</h2>
+          <p class="page-header-subtitle">Manage the list of available university programmes.</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-ghost btn-sm" id="refreshProgramsBtn">
+            <i class="fa-solid fa-rotate-right"></i> Refresh
+          </button>
+          <button class="btn btn-gold btn-sm" id="addProgramBtn">
+            <i class="fa-solid fa-plus"></i> Add Programme
+          </button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <div class="search-bar" style="flex:1">
+          <i class="fa-solid fa-magnifying-glass fa"></i>
+          <input type="text" id="programSearch" placeholder="Search programmes…"/>
+        </div>
+        <select class="form-control" id="programCountryFilter" style="width:auto">
+          <option value="">All Countries</option>
+          <option>United Kingdom</option><option>Canada</option>
+          <option>Australia</option><option>United States</option>
+          <option>Germany</option><option>Netherlands</option>
+        </select>
+        <select class="form-control" id="programLevelFilter" style="width:auto">
+          <option value="">All Levels</option>
+          <option>BSc</option><option>MSc</option><option>MBA</option><option>PhD</option>
+        </select>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table aria-label="Programs database">
+            <thead>
+              <tr>
+                <th>Programme</th>
+                <th>University</th>
+                <th>Country</th>
+                <th>Level</th>
+                <th>Tuition Fee</th>
+                <th>Intake</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="programsBody">
+              <tr><td colspan="7"><div style="padding:var(--space-8);text-align:center;color:var(--muted)">Loading programmes…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SCRAPER TOOL TAB ═══ -->
+    <div id="tab-scraper" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Programme Scraper Tool</h2>
+          <p class="page-header-subtitle">Import programme data from university websites or CSV files.</p>
+        </div>
+      </div>
+
+      <div class="scraper-layout">
+        <!-- Control panel -->
+        <div class="scraper-control-panel">
+          <h3 style="font-family:var(--font-display);font-size:1.125rem;font-weight:600;margin-bottom:var(--space-5)">Scrape Configuration</h3>
+          <div class="form-group">
+            <label class="form-label" for="scraperUrl">University URL</label>
+            <input type="url" id="scraperUrl" class="form-control" placeholder="https://university.ac.uk/courses"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="scraperCountry">Country</label>
+            <select id="scraperCountry" class="form-control">
+              <option>United Kingdom</option><option>Canada</option>
+              <option>Australia</option><option>United States</option>
+              <option>Germany</option><option>Netherlands</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="scraperLevel">Level Filter</label>
+            <select id="scraperLevel" class="form-control">
+              <option value="">All Levels</option>
+              <option>BSc</option><option>MSc</option><option>MBA</option><option>PhD</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Or Upload CSV</label>
+            <label class="drop-zone" style="padding:var(--space-5)">
+              <div class="drop-icon" style="font-size:1.5rem"><i class="fa-solid fa-file-csv"></i></div>
+              <p class="drop-subtitle">Click to upload a CSV file</p>
+              <input type="file" id="scraperCsv" accept=".csv" class="hidden"/>
+            </label>
+          </div>
+          <button class="btn btn-gold w-full" id="startScraperBtn">
+            <i class="fa-solid fa-spider"></i> Start Scraping
+          </button>
+          <button class="btn btn-ghost w-full" id="stopScraperBtn" disabled style="margin-top:var(--space-3)">
+            <i class="fa-solid fa-stop"></i> Stop
+          </button>
+          <div class="scraper-log" id="scraperLog" aria-live="polite" aria-label="Scraper log">
+            <div class="log-line info">Ready to scrape…</div>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div class="scraper-results-panel">
+          <div class="scraper-results-header">
+            <h3 style="font-family:var(--font-display);font-size:1rem;font-weight:600">Results</h3>
+            <div style="display:flex;gap:var(--space-3);align-items:center">
+              <span class="text-sm text-muted" id="scraperResultCount">0 programmes found</span>
+              <button class="btn btn-gold btn-sm" id="importSelectedBtn" disabled>
+                <i class="fa-solid fa-file-import"></i> Import Selected
+              </button>
+            </div>
+          </div>
+          <div id="scraperResults">
+            <div class="empty-state" style="padding:var(--space-12)">
+              <div class="empty-state-icon"><i class="fa-solid fa-spider"></i></div>
+              <p class="empty-state-title">No Results Yet</p>
+              <p class="text-muted text-sm">Configure and run the scraper to find programmes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ AUDIT LOG TAB ═══ -->
+    <div id="tab-audit" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info">
+          <h2 class="page-header-title">Audit Log</h2>
+          <p class="page-header-subtitle">Full history of all actions on the platform.</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-ghost btn-sm" id="exportAuditBtn">
+            <i class="fa-solid fa-file-export"></i> Export Log
+          </button>
+        </div>
+      </div>
+      <div class="filter-bar">
+        <select class="form-control" id="auditActionFilter" style="width:auto">
+          <option value="">All Actions</option>
+          <option value="submitted">Submitted</option>
+          <option value="status_changed">Status Changed</option>
+          <option value="worker_assigned">Worker Assigned</option>
+          <option value="withdrawn">Withdrawn</option>
+        </select>
+        <input type="date" id="auditDateFrom" class="form-control" style="width:auto"/>
+        <input type="date" id="auditDateTo"   class="form-control" style="width:auto"/>
+        <button class="btn btn-ghost btn-sm" id="auditRefreshBtn"><i class="fa-solid fa-rotate-right"></i></button>
+      </div>
+      <div class="table-section">
+        <div class="table-wrap">
+          <table aria-label="Audit log">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Actor</th>
+                <th>Action</th>
+                <th>Application</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody id="auditBody">
+              <tr><td colspan="5"><div style="padding:var(--space-8);text-align:center;color:var(--muted)">Loading audit log…</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS TAB ═══ -->
+    <div id="tab-settings" class="admin-tab-content">
+      <div class="page-header">
+        <div class="page-header-info"><h2 class="page-header-title">Platform Settings</h2></div>
+      </div>
+      <div class="settings-layout">
+        <nav class="settings-nav" aria-label="Settings categories">
+          <button class="settings-nav-item active" data-settings="general"><i class="fa-solid fa-gear"></i> General</button>
+          <button class="settings-nav-item" data-settings="fees"><i class="fa-solid fa-sterling-sign"></i> Fees</button>
+          <button class="settings-nav-item" data-settings="email"><i class="fa-solid fa-envelope"></i> Email</button>
+          <button class="settings-nav-item" data-settings="security"><i class="fa-solid fa-shield"></i> Security</button>
+        </nav>
+        <div class="settings-panel">
+          <h3 class="settings-panel-title">General Settings</h3>
+          <div class="form-group">
+            <label class="form-label" for="settingOrgName">Organisation Name</label>
+            <input type="text" id="settingOrgName" class="form-control" value="Cyndy Educational Pathways Ltd"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="settingEmail">Contact Email</label>
+            <input type="email" id="settingEmail" class="form-control" value="info@cyndyedupathways.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="settingPhone">Phone Number</label>
+            <input type="tel" id="settingPhone" class="form-control" placeholder="+44 20 0000 0000"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="settingAddress">Address</label>
+            <textarea id="settingAddress" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="modal-footer" style="margin-top:var(--space-6);padding-top:var(--space-5);border-top:1px solid var(--border)">
+            <button class="btn btn-gold" id="saveSettingsBtn">
+              <i class="fa-solid fa-floppy-disk"></i> Save Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div><!-- /dash-shell -->
+
+<!-- PIN MODAL -->
+<div class="modal-overlay" id="pinModal" role="dialog" aria-modal="true" aria-labelledby="pinModalTitle">
+  <div class="modal animate-scaleIn" style="max-width:380px;text-align:center">
+    <div style="margin-bottom:var(--space-6)">
+      <img src="/assets/logo.svg" alt="" width="48" height="48" style="margin:0 auto var(--space-4)"/>
+      <h2 id="pinModalTitle" style="font-family:var(--font-display);font-size:1.5rem;font-weight:700">Admin Verification</h2>
+      <p style="color:var(--muted);font-size:0.875rem;margin-top:4px">Enter your 4-digit admin PIN</p>
+    </div>
+    <form id="pinForm" novalidate>
+      <div class="pin-inputs" role="group" aria-label="PIN digits">
+        <input class="pin-input" type="text" inputmode="numeric" maxlength="1" aria-label="PIN digit 1"/>
+        <input class="pin-input" type="text" inputmode="numeric" maxlength="1" aria-label="PIN digit 2"/>
+        <input class="pin-input" type="text" inputmode="numeric" maxlength="1" aria-label="PIN digit 3"/>
+        <input class="pin-input" type="text" inputmode="numeric" maxlength="1" aria-label="PIN digit 4"/>
+      </div>
+      <button type="submit" class="btn btn-gold w-full btn-lg" style="margin-top:var(--space-6)" id="pinSubmitBtn">
+        <span class="spinner" style="display:none"></span>
+        <span class="btn-label">Access Admin Panel</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Invite worker modal -->
+<div class="modal-overlay" id="inviteModal" role="dialog" aria-modal="true">
+  <div class="modal animate-scaleIn">
+    <div class="modal-header">
+      <h3 class="modal-title">Invite Worker</h3>
+      <button class="modal-close" id="inviteClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="inviteEmail">Email Address <span class="required">*</span></label>
+        <input type="email" id="inviteEmail" class="form-control" placeholder="worker@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inviteName">Full Name <span class="required">*</span></label>
+        <input type="text" id="inviteName" class="form-control" placeholder="Jane Doe"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="invitePin">Initial PIN (4 digits) <span class="required">*</span></label>
+        <input type="text" id="invitePin" class="form-control" maxlength="4" placeholder="0000"/>
+        <p class="form-hint">Worker must change this on first login.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="inviteCancel">Cancel</button>
+      <button class="btn btn-gold" id="inviteConfirm">
+        <i class="fa-solid fa-paper-plane"></i> Send Invite
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, signOut, initPinModal } from '/js/auth.js';
+  import { initAdminDashboard }                from '/js/admin.js';
+
+  (async () => {
+    const ctx = await requireAuth(['admin']);
+    if (!ctx) return;
+
+    const { profile } = ctx;
+    document.getElementById('sidebarName').textContent = profile.full_name || profile.email;
+    const av = document.getElementById('sidebarAvatar');
+    if (av) av.textContent = (profile.full_name||'A').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+
+    document.getElementById('signOutBtn')?.addEventListener('click', signOut);
+
+    const sidebar = document.getElementById('dashSidebar');
+    document.getElementById('sidebarToggle')?.addEventListener('click', () =>
+      sidebar?.classList.toggle('mobile-open')
+    );
+
+    // Theme toggle
+    document.getElementById('themeBtn')?.addEventListener('click', () => {
+      document.documentElement.classList.toggle('light-mode');
+      const icon = document.querySelector('#themeBtn i');
+      icon?.classList.toggle('fa-moon');
+      icon?.classList.toggle('fa-sun');
+    });
+
+    // PIN gate for admin
+    if (profile.pin_hash) {
+      initPinModal(ctx.user.id, () => initAdminDashboard(ctx));
+    } else {
+      initAdminDashboard(ctx);
+    }
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(console.error);
+  })();
+</script>
+</body>
+</html>

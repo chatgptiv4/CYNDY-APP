@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Application Status — Cyndy Educational Pathways</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <link rel="stylesheet" href="/css/portal.css"/>
+</head>
+<body>
+<div class="portal-page">
+
+<!-- TOPBAR -->
+<header class="portal-topbar" id="portalTopbar">
+  <div class="portal-topbar-left">
+    <a href="/" class="nav-logo" aria-label="Home">
+      <img src="/assets/logo.svg" alt="Cyndy" width="32" height="32"/>
+      <div>
+        <span class="nav-logo-text">Cyndy</span>
+        <span class="nav-logo-sub">Educational Pathways</span>
+      </div>
+    </a>
+    <span style="color:var(--border);font-size:1.2rem" aria-hidden="true">|</span>
+    <span style="font-size:0.9rem;color:var(--text-secondary)">Application Status</span>
+  </div>
+  <div class="portal-topbar-right">
+    <a href="/apply.html" class="btn btn-gold btn-sm" id="continueAppBtn">
+      <i class="fa-solid fa-pen-to-square"></i> Continue Application
+    </a>
+    <div class="portal-user-chip" id="userChip">
+      <div class="portal-avatar" id="userAvatar" aria-hidden="true">?</div>
+      <span class="portal-user-name" id="userName">Loading…</span>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="signOutBtn"><i class="fa-solid fa-right-from-bracket"></i></button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="portal-content" id="portalMain">
+
+  <!-- Loading skeleton -->
+  <div id="statusSkeleton">
+    <div class="skeleton skeleton-title" style="width:300px;margin-bottom:var(--space-6)"></div>
+    <div class="status-page-layout">
+      <div>
+        <div class="skeleton skeleton-card" style="height:200px;margin-bottom:var(--space-5)"></div>
+        <div class="skeleton skeleton-card" style="height:300px"></div>
+      </div>
+      <div>
+        <div class="skeleton skeleton-card" style="height:200px;margin-bottom:var(--space-5)"></div>
+        <div class="skeleton skeleton-card" style="height:160px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content (hidden until loaded) -->
+  <div id="statusContent" class="hidden animate-slideUp">
+    <div class="wizard-title-row" style="margin-bottom:var(--space-6)">
+      <h1 class="wizard-page-title" id="pageTitle">My Application Status</h1>
+      <div style="display:flex;gap:var(--space-3)">
+        <button class="btn btn-ghost btn-sm" id="refreshBtn" aria-label="Refresh status">
+          <i class="fa-solid fa-rotate-right"></i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Multiple applications picker -->
+    <div id="appPicker" class="hidden">
+      <div class="app-selector" id="appPickerGrid"></div>
+    </div>
+
+    <!-- Status layout -->
+    <div class="status-page-layout" id="statusLayout">
+
+      <!-- Left column -->
+      <div>
+        <!-- Hero card -->
+        <div class="status-hero-card" id="heroCard">
+          <div class="status-hero-top">
+            <div>
+              <p class="status-app-id" id="statusRefCode">REF: —</p>
+              <h2 class="status-app-name" id="statusProgramName">Loading…</h2>
+              <p class="status-app-dest" id="statusDestination">
+                <i class="fa-solid fa-location-dot" style="color:var(--gold)" aria-hidden="true"></i>
+                <span>—</span>
+              </p>
+            </div>
+            <div class="status-completion">
+              <div class="status-pct" id="statusPct">0%</div>
+              <div class="status-pct-label">Complete</div>
+              <div style="margin-top:var(--space-3)" id="statusBadgeWrap"></div>
+            </div>
+          </div>
+          <div class="progress-bar-track" style="margin:var(--space-5) 0">
+            <div class="progress-bar-fill" id="statusProgress" style="width:0%"></div>
+          </div>
+          <div style="display:flex;gap:var(--space-4);flex-wrap:wrap">
+            <span class="text-sm text-muted">Submitted: <strong id="statusSubmitted">—</strong></span>
+            <span class="text-sm text-muted">Last updated: <strong id="statusUpdated">—</strong></span>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="status-timeline-card">
+          <h3 class="status-card-title">
+            <i class="fa-solid fa-timeline" aria-hidden="true"></i>
+            Application Journey
+          </h3>
+          <div class="timeline" id="statusTimeline">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Documents checklist -->
+        <div class="status-timeline-card" style="margin-top:var(--space-5)" id="docsCard">
+          <h3 class="status-card-title">
+            <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+            Documents
+          </h3>
+          <div id="docsChecklist">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right sidebar -->
+      <div class="status-sidebar">
+        <!-- Application details -->
+        <div class="sidebar-card">
+          <p class="sidebar-card-title">Application Details</p>
+          <div id="appDetailRows">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Activity feed -->
+        <div class="sidebar-card" id="activityCard">
+          <p class="sidebar-card-title">Recent Activity</p>
+          <div class="activity-feed" id="activityFeed">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Notes from team (non-internal) -->
+        <div class="sidebar-card" id="teamNotesCard">
+          <p class="sidebar-card-title">Messages from Team</p>
+          <div id="teamNotes">
+            <p class="text-sm text-muted">No messages yet.</p>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="sidebar-card">
+          <p class="sidebar-card-title">Actions</p>
+          <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+            <a href="/apply.html" class="btn btn-outline w-full" id="editAppBtn">
+              <i class="fa-solid fa-pen-to-square"></i> Edit Application
+            </a>
+            <button class="btn btn-ghost w-full" id="downloadPdfBtn">
+              <i class="fa-solid fa-file-pdf"></i> Download Summary PDF
+            </button>
+            <button class="btn btn-danger w-full" id="withdrawBtn">
+              <i class="fa-solid fa-xmark"></i> Withdraw Application
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No application state -->
+    <div class="empty-state hidden" id="noAppState">
+      <div class="empty-state-icon" aria-hidden="true"><i class="fa-solid fa-file-circle-plus"></i></div>
+      <h2 class="empty-state-title">No Active Application</h2>
+      <p class="text-muted" style="margin-bottom:var(--space-6)">Start your application to track its progress here.</p>
+      <a href="/apply.html" class="btn btn-gold btn-lg">
+        <i class="fa-solid fa-rocket"></i> Start Application
+      </a>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- WITHDRAW CONFIRM MODAL -->
+<div class="modal-overlay" id="withdrawModal" role="dialog" aria-modal="true">
+  <div class="modal animate-scaleIn" style="max-width:440px">
+    <div class="modal-header">
+      <h3 class="modal-title" style="color:var(--danger)">Withdraw Application?</h3>
+      <button class="modal-close" id="withdrawClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text-secondary);line-height:1.7">
+        Are you sure you want to withdraw this application? This action cannot be undone.
+        Your application fee will not be refunded.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="withdrawCancel">Cancel</button>
+      <button class="btn btn-danger" id="withdrawConfirm">Yes, Withdraw</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { requireAuth, signOut } from '/js/auth.js';
+  import { initStatusPage } from '/js/status.js';
+
+  (async () => {
+    const ctx = await requireAuth(['client']);
+    if (!ctx) return;
+
+    const { profile } = ctx;
+    document.getElementById('userName').textContent = profile.full_name || profile.email;
+    const av = document.getElementById('userAvatar');
+    if (av) {
+      av.textContent = (profile.full_name || '?').trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    }
+
+    document.getElementById('signOutBtn')?.addEventListener('click', signOut);
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(console.error);
+
+    await initStatusPage(ctx);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyndy Educational Pathways — Your Journey Abroad Starts Here</title>
+  <meta name="description" content="Cyndy Educational Pathways is a premier UK study-abroad consultancy. Apply to top universities, track your application, and get expert visa guidance — all in one place."/>
+  <meta name="theme-color" content="#D4A847"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Cyndy Educational Pathways"/>
+  <meta property="og:description" content="Premier UK study-abroad consultancy. Apply, track, succeed."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://cynd yedupathways.com/"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Toast notifications -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/main.css"/>
+  <link rel="stylesheet" href="/css/landing.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MOBILE NAV
+═══════════════════════════════════════════════════════════════ -->
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <div class="mobile-nav-header">
+    <a href="/" class="nav-logo">
+      <img src="/assets/logo.svg" alt="Cyndy logo" width="32" height="32"/>
+      <span class="nav-logo-text">Cyndy<span class="nav-logo-sub">Educational Pathways</span></span>
+    </a>
+    <button class="btn btn-ghost btn-icon" id="mobileNavClose" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  <div class="mobile-nav-links">
+    <a href="#how-it-works" class="mobile-nav-link" id="mobileHowLink">How It Works</a>
+    <a href="#services"     class="mobile-nav-link" id="mobileServicesLink">Services</a>
+    <a href="#destinations" class="mobile-nav-link" id="mobileDestLink">Destinations</a>
+    <a href="#testimonials" class="mobile-nav-link" id="mobileTestiLink">Testimonials</a>
+    <a href="#contact"      class="mobile-nav-link" id="mobileContactLink">Contact</a>
+  </div>
+  <div class="mobile-nav-actions">
+    <button class="btn btn-outline w-full" data-auth="login"  id="mobileLoginBtn">Sign In</button>
+    <button class="btn btn-gold  w-full" data-auth="signup" id="mobileSignupBtn">Start Application</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TOP NAV
+═══════════════════════════════════════════════════════════════ -->
+<header class="site-nav" id="siteNav" role="banner">
+  <a href="/" class="nav-logo" aria-label="Cyndy Educational Pathways home">
+    <img src="/assets/logo.svg" alt="Cyndy logo" width="36" height="36"/>
+    <div>
+      <span class="nav-logo-text">Cyndy</span>
+      <span class="nav-logo-sub">Educational Pathways</span>
+    </div>
+  </a>
+
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="#how-it-works" class="nav-link" id="navHow">How It Works</a>
+    <a href="#services"     class="nav-link" id="navServices">Services</a>
+    <a href="#destinations" class="nav-link" id="navDest">Destinations</a>
+    <a href="#testimonials" class="nav-link" id="navTesti">Testimonials</a>
+    <a href="#contact"      class="nav-link" id="navContact">Contact</a>
+  </nav>
+
+  <div class="nav-actions">
+    <button class="btn btn-ghost btn-sm hide-md" data-auth="login"  id="navLoginBtn">Sign In</button>
+    <button class="btn btn-gold  btn-sm"          data-auth="signup" id="navSignupBtn">
+      <i class="fa-solid fa-graduation-cap"></i> Start Application
+    </button>
+    <button class="nav-mobile-toggle" id="mobileNavToggle" aria-label="Open menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════════ -->
+<main>
+<section class="hero" id="hero" aria-label="Hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+  <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="hero-badge-dot" aria-hidden="true"></span>
+        Trusted by 2,000+ Students Worldwide
+      </div>
+
+      <h1 class="hero-title">
+        Your Dream University<br/>
+        <em>Is Within Reach</em>
+      </h1>
+
+      <p class="hero-subtitle">
+        Cyndy Educational Pathways guides ambitious students through every step of studying abroad —
+        from university selection and application to visa approval and beyond.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-gold btn-xl" data-auth="signup" id="heroSignupBtn" aria-label="Begin your application">
+          <i class="fa-solid fa-rocket"></i>
+          <span>Begin Your Application</span>
+        </button>
+        <a href="#how-it-works" class="btn btn-outline btn-xl" id="heroLearnBtn">
+          <i class="fa-solid fa-play"></i>
+          <span>How It Works</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats" aria-label="Key statistics">
+      <div class="hero-stat">
+        <div class="hero-stat-value" data-count="2000">0</div>
+        <div class="hero-stat-label">Students Placed</div>
+      </div>
+      <div class="hero-stat-sep" aria-hidden="true"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" data-count="150">0</div>
+        <div class="hero-stat-label">Partner Universities</div>
+      </div>
+      <div class="hero-stat-sep" aria-hidden="true"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" data-count="94">0</div>
+        <div class="hero-stat-label">Visa Success Rate %</div>
+      </div>
+      <div class="hero-stat-sep" aria-hidden="true"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-value" data-count="12">0</div>
+        <div class="hero-stat-label">Countries Covered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-mouse"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════════════════════ -->
+<section class="section how-section" id="how-it-works" aria-labelledby="howHeading">
+  <div class="container">
+    <div class="section-label"><span>Simple Process</span></div>
+    <h2 class="section-heading" id="howHeading">From Dream to <span>Degree</span></h2>
+    <p class="section-desc">Four straightforward steps to transform your study abroad ambition into reality.</p>
+
+    <div class="steps-grid">
+      <article class="step-card animate-slideUp delay-1" id="step1">
+        <div class="step-number">01</div>
+        <h3 class="step-title">Create Your Profile</h3>
+        <p class="step-desc">Register and complete your academic profile. Tell us about your qualifications, goals, and preferred destinations.</p>
+      </article>
+
+      <article class="step-card animate-slideUp delay-2" id="step2">
+        <div class="step-number">02</div>
+        <h3 class="step-title">Submit Application</h3>
+        <p class="step-desc">Fill in our guided 16-section wizard. Auto-save ensures you never lose progress. Upload required documents securely.</p>
+      </article>
+
+      <article class="step-card animate-slideUp delay-3" id="step3">
+        <div class="step-number">03</div>
+        <h3 class="step-title">Track in Real-Time</h3>
+        <p class="step-desc">Watch your application progress live. Get instant notifications at every stage from submission to offer letter.</p>
+      </article>
+
+      <article class="step-card animate-slideUp delay-4" id="step4">
+        <div class="step-number">04</div>
+        <h3 class="step-title">Fly & Succeed</h3>
+        <p class="step-desc">Once accepted, our post-arrival support team ensures a smooth transition to your new university and country.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SERVICES / FEATURES
+═══════════════════════════════════════════════════════════════ -->
+<section class="section" id="services" aria-labelledby="servicesHeading">
+  <div class="container">
+    <div class="section-label"><span>What We Offer</span></div>
+    <h2 class="section-heading" id="servicesHeading">Expert Services, <span>Every Step</span></h2>
+    <p class="section-desc">Comprehensive support across the entire study abroad journey — not just paperwork.</p>
+
+    <div class="features-grid">
+      <article class="feature-card" id="feat-counselling">
+        <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <h3 class="feature-title">Personal Counselling</h3>
+        <p class="feature-desc">One-on-one sessions with certified education advisors who understand your unique academic background and aspirations.</p>
+      </article>
+
+      <article class="feature-card" id="feat-shortlisting">
+        <div class="feature-icon"><i class="fa-solid fa-list-check"></i></div>
+        <h3 class="feature-title">University Shortlisting</h3>
+        <p class="feature-desc">AI-assisted program matching across 150+ partner universities, filtered by budget, ranking, entry requirements, and intake dates.</p>
+      </article>
+
+      <article class="feature-card" id="feat-application">
+        <div class="feature-icon"><i class="fa-solid fa-file-signature"></i></div>
+        <h3 class="feature-title">Application Management</h3>
+        <p class="feature-desc">Our secure 16-section digital wizard guides you through every detail. Experts review before submission to maximise acceptance chances.</p>
+      </article>
+
+      <article class="feature-card" id="feat-documents">
+        <div class="feature-icon"><i class="fa-solid fa-folder-open"></i></div>
+        <h3 class="feature-title">Document Verification</h3>
+        <p class="feature-desc">Secure encrypted upload, expert review, and real-time status updates for all your supporting documents and transcripts.</p>
+      </article>
+
+      <article class="feature-card" id="feat-visa">
+        <div class="feature-icon"><i class="fa-solid fa-passport"></i></div>
+        <h3 class="feature-title">Visa Assistance</h3>
+        <p class="feature-desc">94% visa approval rate. Our visa specialists prepare your complete application pack and coach you for the interview.</p>
+      </article>
+
+      <article class="feature-card" id="feat-support">
+        <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+        <h3 class="feature-title">Post-Arrival Support</h3>
+        <p class="feature-desc">Airport pickup coordination, accommodation guidance, bank account setup, and SIM card assistance on arrival.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     DESTINATIONS / UNIVERSITY LOGOS TRACK
+═══════════════════════════════════════════════════════════════ -->
+<section class="logos-section" id="destinations" aria-labelledby="destHeading">
+  <div class="container">
+    <p class="logos-title" id="destHeading">Partner Universities & Destinations</p>
+    <div class="logos-track-wrap" aria-hidden="true">
+      <div class="logos-track" id="logosTrack">
+        <!-- Row 1 (will be doubled by JS for infinite loop) -->
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Manchester</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Leeds</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Coventry University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Edinburgh</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Cardiff University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Birmingham</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Hertfordshire</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of East London</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Liverpool John Moores</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Suffolk</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Anglia Ruskin University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Northampton</div>
+        <!-- Duplicated for seamless loop -->
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Manchester</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Leeds</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Coventry University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Edinburgh</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Cardiff University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Birmingham</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Hertfordshire</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of East London</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Liverpool John Moores</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Suffolk</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> Anglia Ruskin University</div>
+        <div class="logo-chip"><i class="fa-solid fa-globe"></i> University of Northampton</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════════════════ -->
+<section class="section testimonials-section" id="testimonials" aria-labelledby="testiHeading">
+  <div class="container">
+    <div class="section-label"><span>Success Stories</span></div>
+    <h2 class="section-heading" id="testiHeading">Students Who <span>Made It</span></h2>
+
+    <div class="testimonials-grid">
+      <article class="testimonial-card animate-slideUp delay-1" id="testi1">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-text">
+          Cyndy made my dream of studying in the UK a real possibility. The application wizard was incredibly thorough and my consultant kept me updated every single day. Got my offer within 3 weeks!
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">AO</div>
+          <div>
+            <div class="testimonial-name">Amina Owusu</div>
+            <div class="testimonial-role">BSc Computer Science · University of Leeds · 🇬🇭</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial-card animate-slideUp delay-2" id="testi2">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-text">
+          I was overwhelmed by the process until I found Cyndy. Their document checklist alone saved me from 5 potential rejections. I'm now in my second year at Coventry — best decision I ever made.
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">KA</div>
+          <div>
+            <div class="testimonial-name">Kwame Asante</div>
+            <div class="testimonial-role">MBA · Coventry University · 🇳🇬</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial-card animate-slideUp delay-3" id="testi3">
+        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+        <p class="testimonial-text">
+          The real-time tracking feature is incredible. I could see exactly where my application was at any moment. The visa team prepared me so well that my interview lasted only 8 minutes!
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">FI</div>
+          <div>
+            <div class="testimonial-name">Fatima Ibrahim</div>
+            <div class="testimonial-role">LLM Law · University of Birmingham · 🇵🇰</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════════════════════════ -->
+<section class="cta-section" id="contact" aria-labelledby="ctaHeading">
+  <div class="container cta-inner">
+    <div class="section-label" style="justify-content:center"><span>Start Today</span></div>
+    <h2 class="cta-title" id="ctaHeading">
+      Ready to Begin Your<br/><span style="color:var(--gold)">Journey Abroad?</span>
+    </h2>
+    <p class="cta-desc">Join thousands of students who trusted Cyndy to navigate the complex path to international education.</p>
+    <div class="cta-actions">
+      <button class="btn btn-gold btn-xl" data-auth="signup" id="ctaSignupBtn">
+        <i class="fa-solid fa-graduation-cap"></i>
+        Apply Now — Free Consultation
+      </button>
+      <a href="mailto:info@cyndyedupathways.com" class="btn btn-outline btn-xl" id="ctaContactBtn">
+        <i class="fa-solid fa-envelope"></i>
+        Email Us
+      </a>
+    </div>
+    <p style="font-size:0.85rem; color:var(--muted); margin-top:var(--space-5)">
+      No upfront commitment. Free eligibility check within 24 hours.
+    </p>
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<footer class="site-footer" aria-label="Site footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" aria-label="Cyndy home">
+          <img src="/assets/logo.svg" alt="" width="40" height="40"/>
+          <div>
+            <span class="nav-logo-text">Cyndy</span>
+            <span class="nav-logo-sub">Educational Pathways</span>
+          </div>
+        </a>
+        <p class="footer-tagline">
+          Premier UK study-abroad consultancy helping ambitious students from across Africa, Asia, and the Middle East unlock world-class education.
+        </p>
+        <div class="footer-socials" aria-label="Social media links">
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Services</p>
+        <ul class="footer-links">
+          <li><a href="#services">University Shortlisting</a></li>
+          <li><a href="#services">Application Management</a></li>
+          <li><a href="#services">Document Verification</a></li>
+          <li><a href="#services">Visa Assistance</a></li>
+          <li><a href="#services">Post-Arrival Support</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Destinations</p>
+        <ul class="footer-links">
+          <li><a href="#destinations">🇬🇧 United Kingdom</a></li>
+          <li><a href="#destinations">🇨🇦 Canada</a></li>
+          <li><a href="#destinations">🇦🇺 Australia</a></li>
+          <li><a href="#destinations">🇺🇸 United States</a></li>
+          <li><a href="#destinations">🇩🇪 Germany</a></li>
+          <li><a href="#destinations">🇳🇱 Netherlands</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-title">Company</p>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Team</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="mailto:info@cyndyedupathways.com">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        &copy; <span id="footerYear">2026</span> Cyndy Educational Pathways Ltd. All rights reserved.
+      </p>
+      <div style="display:flex; gap:var(--space-4); font-size:0.875rem; color:var(--muted)">
+        <a href="#" style="color:var(--muted)">Privacy</a>
+        <a href="#" style="color:var(--muted)">Terms</a>
+        <a href="#" style="color:var(--muted)">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AUTH MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+  <div class="modal auth-modal animate-scaleIn">
+    <!-- Close -->
+    <button class="modal-close" id="authModalClose" aria-label="Close modal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <!-- Header -->
+    <div class="auth-modal-header">
+      <div class="auth-logo-wrap">
+        <img src="/assets/logo.svg" alt="Cyndy logo" width="48" height="48"/>
+      </div>
+      <h2 class="auth-modal-title" id="authModalTitle">Welcome to Cyndy</h2>
+      <p class="auth-modal-sub">Your study abroad journey starts here</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+      <button class="auth-tab active" id="tabLogin" role="tab" aria-selected="true" aria-controls="panelLogin">Sign In</button>
+      <button class="auth-tab"        id="tabSignup" role="tab" aria-selected="false" aria-controls="panelSignup">Create Account</button>
+    </div>
+
+    <!-- ── LOGIN ── -->
+    <div id="panelLogin" role="tabpanel" aria-labelledby="tabLogin">
+      <form class="auth-form" id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+            <input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+            <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="input-action" data-pw-toggle="loginPassword" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align:right; margin-top:-8px">
+          <a href="#" class="text-sm text-gold" id="forgotPasswordLink">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-gold w-full btn-lg" id="loginSubmitBtn">
+          <span class="spinner" style="display:none" aria-hidden="true"></span>
+          <span class="btn-label">Sign In</span>
+        </button>
+      </form>
+
+      <p class="auth-footer-text">
+        Don't have an account? <a href="#" data-auth="signup" class="text-gold">Create one free</a>
+      </p>
+    </div>
+
+    <!-- ── SIGN UP ── -->
+    <div id="panelSignup" class="hidden" role="tabpanel" aria-labelledby="tabSignup">
+      <form class="auth-form" id="signupForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="signupName">Full Name <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-user input-icon" aria-hidden="true"></i>
+            <input type="text" id="signupName" class="form-control" placeholder="Jane Doe" required autocomplete="name"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupEmail">Email Address <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-envelope input-icon" aria-hidden="true"></i>
+            <input type="email" id="signupEmail" class="form-control" placeholder="you@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="signupPhone">Phone</label>
+            <input type="tel" id="signupPhone" class="form-control" placeholder="+44 7700 900000" autocomplete="tel"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="signupNationality">Nationality</label>
+            <select id="signupNationality" class="form-control">
+              <option value="">Select…</option>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">Password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+            <input type="password" id="signupPassword" class="form-control" placeholder="••••••••" required autocomplete="new-password"/>
+            <button type="button" class="input-action" data-pw-toggle="signupPassword" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="pw-strength-bar" aria-hidden="true">
+            <div class="pw-strength-seg"></div>
+            <div class="pw-strength-seg"></div>
+            <div class="pw-strength-seg"></div>
+            <div class="pw-strength-seg"></div>
+          </div>
+          <span class="form-hint" id="pwStrengthLabel" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupConfirm">Confirm Password <span class="required" aria-hidden="true">*</span></label>
+          <div class="input-group">
+            <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
+            <input type="password" id="signupConfirm" class="form-control" placeholder="••••••••" required autocomplete="new-password"/>
+          </div>
+        </div>
+
+        <p class="text-sm text-muted" style="line-height:1.5">
+          By creating an account you agree to our
+          <a href="#" class="text-gold">Terms of Service</a> and
+          <a href="#" class="text-gold">Privacy Policy</a>.
+        </p>
+
+        <button type="submit" class="btn btn-gold w-full btn-lg" id="signupSubmitBtn">
+          <span class="spinner" style="display:none" aria-hidden="true"></span>
+          <span class="btn-label">Create Free Account</span>
+        </button>
+      </form>
+
+      <p class="auth-footer-text">
+        Already have an account? <a href="#" data-auth="login" class="text-gold">Sign in</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════════════ -->
+<script type="module">
+  import { redirectIfLoggedIn, initAuthModal } from '/js/auth.js';
+  import { COUNTRIES } from '/js/config.js';
+
+  // ── On load ──
+  (async () => {
+    // If already logged in, redirect to dashboard.
+    // Wrapped in try/catch so DB errors never block the buttons.
+    try {
+      await redirectIfLoggedIn();
+    } catch (e) {
+      console.warn('[redirectIfLoggedIn] skipped:', e.message);
+    }
+
+    // Wire up auth modal
+    initAuthModal();
+
+    // Populate nationality select
+    const sel = document.getElementById('signupNationality');
+    if (sel) {
+      COUNTRIES.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        sel.appendChild(opt);
+      });
+    }
+
+    // Sticky nav scroll effect
+    const nav = document.getElementById('siteNav');
+    const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile nav
+    const mobileNav    = document.getElementById('mobileNav');
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const mobileClose  = document.getElementById('mobileNavClose');
+    const openMobile   = () => { mobileNav?.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeMobile  = () => { mobileNav?.classList.remove('open'); document.body.style.overflow = ''; };
+    mobileToggle?.addEventListener('click', openMobile);
+    mobileClose?.addEventListener('click',  closeMobile);
+    mobileNav?.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', closeMobile));
+
+    // Counter animation
+    const counters = document.querySelectorAll('[data-count]');
+    const animateCounters = () => {
+      counters.forEach(el => {
+        const target = +el.dataset.count;
+        let cur = 0;
+        const step = Math.ceil(target / 60);
+        const tick = () => {
+          cur = Math.min(cur + step, target);
+          el.textContent = cur.toLocaleString() + (target === 94 ? '%' : (target >= 1000 ? '+' : '+'));
+          if (cur < target) requestAnimationFrame(tick);
+        };
+        tick();
+      });
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { animateCounters(); observer.disconnect(); } });
+    }, { threshold: 0.5 });
+    const statsEl = document.querySelector('.hero-stats');
+    if (statsEl) observer.observe(statsEl);
+
+    // Footer year
+    const fy = document.getElementById('footerYear');
+    if (fy) fy.textContent = new Date().getFullYear();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
